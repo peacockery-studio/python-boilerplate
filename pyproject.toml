@@ -1,0 +1,80 @@
+[build-system]
+requires = ["uv_build>=0.7.19,<0.8.0"]
+build-backend = "uv_build"
+
+[project]
+name = "python-boilerplate"
+version = "0.1.0"
+description = "A Python project boilerplate"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+license = { text = "MIT" }
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+keywords = [
+    "boilerplate",
+    "template",
+    "python",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "pytest-watcher>=0.4.3",
+    "ruff>=0.12.2",
+    "pyright>=1.1.403",
+    "types-tqdm>=4.67.0.20241221",
+    "psutil>=7.0.0",
+    "typing-extensions>=4.14.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "-v",                        # Verbose output showing each test
+    "--tb=short",                # Concise but useful tracebacks
+    "--durations=10",            # Show 10 slowest tests
+    "--strict-markers",          # Fail on unknown markers
+    "--strict-config",           # Fail on unknown config options
+    "--cov=src",                 # Coverage for your package
+    "--cov-report=term-missing", # Show missing lines in terminal
+    "--cov-fail-under=70",       # Set realistic threshold
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "model_download: marks tests that require model downloads",
+    "performance: marks tests as performance benchmarks",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+parallel = false
+omit = []
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+precision = 2
+
+[tool.ptw]
+# pytest-watcher configuration
+runner = "pytest"
+now = true # Run tests immediately on startup
+clear = true # Clear screen before each run
+ignore = ["*.tmp", "*.pyc", "__pycache__", ".git", ".pytest_cache", "htmlcov"]
+watch = ["src/", "tests/"] # Directories to watch for changes
+patterns = ["*.py"] # File patterns to watch
+args = [
+    "-v",         # Verbose output
+    "--tb=short", # Short traceback format
+    "--no-cov",   # Disable coverage during watch mode for speed
+    "-x",         # Stop on first failure
+]
