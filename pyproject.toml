@@ -1,52 +1,95 @@
-[build-system]
-requires = ["uv_build>=0.7.19,<0.8.0"]
-build-backend = "uv_build"
-
 [project]
 name = "python-boilerplate"
 version = "0.1.0"
 description = "A Python project boilerplate"
 readme = "README.md"
 requires-python = ">=3.11"
+license = "MIT"
 dependencies = []
-license = { text = "MIT" }
-authors = [{ name = "Your Name", email = "your.email@example.com" }]
-keywords = [
-    "boilerplate",
-    "template",
-    "python",
-]
+
+[[project.authors]]
+name = "Chi Ejimofor"
+email = "chi@peacockery.studio"
+
+[project.urls]
+Homepage = "https://github.com/peacockery-studio/python-boilerplate"
+Repository = "https://github.com/peacockery-studio/python-boilerplate"
+Issues = "https://github.com/peacockery-studio/python-boilerplate/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/python-boilerplate"]
 
 [dependency-groups]
 dev = [
-    "pytest>=8.4.1",
-    "pytest-cov>=6.2.1",
+    "pytest>=8.4.0",
+    "pytest-cov>=6.0.0",
     "pytest-watcher>=0.4.3",
-    "ruff>=0.12.2",
-    "pyright>=1.1.403",
-    "types-tqdm>=4.67.0.20241221",
-    "psutil>=7.0.0",
-    "typing-extensions>=4.14.0",
+    "ruff>=0.8.0",
+    "ty>=0.0.1a32",
 ]
 
+# =============================================================================
+# Ruff Configuration
+# =============================================================================
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "ARG",    # flake8-unused-arguments
+    "SIM",    # flake8-simplify
+    "TCH",    # flake8-type-checking
+    "PTH",    # flake8-use-pathlib
+    "ERA",    # eradicate (commented-out code)
+    "RUF",    # Ruff-specific rules
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["python_boilerplate"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# =============================================================================
+# ty Configuration
+# =============================================================================
+[tool.ty.environment]
+python-version = "3.11"
+
+# =============================================================================
+# Pytest Configuration
+# =============================================================================
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = [
-    "-v",                        # Verbose output showing each test
-    "--tb=short",                # Concise but useful tracebacks
-    "--durations=10",            # Show 10 slowest tests
-    "--strict-markers",          # Fail on unknown markers
-    "--strict-config",           # Fail on unknown config options
-    "--cov=src",                 # Coverage for your package
-    "--cov-report=term-missing", # Show missing lines in terminal
-    "--cov-fail-under=70",       # Set realistic threshold
+    "-v",
+    "--tb=short",
+    "--durations=10",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-fail-under=70",
 ]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: marks tests as integration tests",
     "unit: marks tests as unit tests",
-    "model_download: marks tests that require model downloads",
-    "performance: marks tests as performance benchmarks",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",
@@ -56,25 +99,38 @@ filterwarnings = [
 [tool.coverage.run]
 source = ["src"]
 branch = true
-parallel = false
-omit = []
 
 [tool.coverage.report]
 show_missing = true
-skip_covered = false
 precision = 2
 
+# =============================================================================
+# pytest-watcher Configuration
+# =============================================================================
 [tool.ptw]
-# pytest-watcher configuration
 runner = "pytest"
-now = true # Run tests immediately on startup
-clear = true # Clear screen before each run
+now = true
+clear = true
 ignore = ["*.tmp", "*.pyc", "__pycache__", ".git", ".pytest_cache", "htmlcov"]
-watch = ["src/", "tests/"] # Directories to watch for changes
-patterns = ["*.py"] # File patterns to watch
-args = [
-    "-v",         # Verbose output
-    "--tb=short", # Short traceback format
-    "--no-cov",   # Disable coverage during watch mode for speed
-    "-x",         # Stop on first failure
-]
+watch = ["src/", "tests/"]
+patterns = ["*.py"]
+args = ["-v", "--tb=short", "--no-cov", "-x"]
+
+# =============================================================================
+# Semantic Release Configuration
+# =============================================================================
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+branch = "main"
+commit_message = "chore(release): {version}"
+tag_format = "v{version}"
+
+[tool.semantic_release.changelog]
+
+[tool.semantic_release.changelog.default_templates]
+changelog_file = "CHANGELOG.md"
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = ["feat", "fix", "docs", "style", "refactor", "perf", "test", "build", "ci", "chore"]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf"]
