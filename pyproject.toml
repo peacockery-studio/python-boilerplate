@@ -21,7 +21,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/python-boilerplate"]
+packages = ["src/python_boilerplate"]
 
 [dependency-groups]
 dev = [
@@ -30,6 +30,7 @@ dev = [
     "pytest-watcher>=0.4.3",
     "ruff>=0.8.0",
     "ty>=0.0.1a32",
+    "pre-commit>=4.0.0",
 ]
 
 # =============================================================================
@@ -53,9 +54,34 @@ select = [
     "PTH",    # flake8-use-pathlib
     "ERA",    # eradicate (commented-out code)
     "RUF",    # Ruff-specific rules
+    "S",      # flake8-bandit (security)
+    "A",      # flake8-builtins
+    "N",      # pep8-naming
+    "ASYNC",  # flake8-async
+    "FBT",    # flake8-boolean-trap
+    "ISC",    # flake8-implicit-str-concat
+    "ICN",    # flake8-import-conventions
+    "LOG",    # flake8-logging
+    "G",      # flake8-logging-format
+    "PIE",    # flake8-pie
+    "PYI",    # flake8-pyi
+    "RSE",    # flake8-raise
+    "RET",    # flake8-return
+    "SLF",    # flake8-self
+    "SLOT",   # flake8-slots
+    "TID",    # flake8-tidy-imports
+    "INT",    # flake8-gettext
+    "PL",     # Pylint
+    "TRY",    # tryceratops
+    "FLY",    # flynt
+    "PERF",   # Perflint
+    "FURB",   # refurb
 ]
 ignore = [
     "E501",   # line too long (handled by formatter)
+    "S101",   # assert used (fine in tests)
+    "PLR2004", # magic value comparison
+    "TRY003", # long exception messages
 ]
 
 [tool.ruff.lint.isort]
@@ -70,6 +96,13 @@ indent-style = "space"
 # =============================================================================
 [tool.ty.environment]
 python-version = "3.11"
+
+[tool.ty.src]
+include = ["src/", "tests/"]
+
+[tool.ty.rules]
+# Uncomment to treat warnings as errors in CI
+# possibly-unbound = "error"
 
 # =============================================================================
 # Pytest Configuration
