@@ -1,8 +1,34 @@
-# Changelog
+# CHANGELOG
 
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## v0.1.0 (2025-12-06)
 
-<!--next-version-placeholder-->
+### Features
+
+- Add full project setup with security rules and developer tooling
+  ([`0726dd6`](https://github.com/peacockery-studio/python-boilerplate/commit/0726dd6bcb67ade238daf483812aaeb128d1574e))
+
+- Add .python-version (3.11) for uv/pyenv consistency - Add MIT LICENSE file - Add CHANGELOG.md for
+  semantic-release - Add comprehensive ruff rules including security (bandit), naming, async, etc. -
+  Add pre-commit hooks (ruff, trailing whitespace, yaml/toml checks) - Add .editorconfig for
+  cross-editor consistency - Add VS Code settings with recommended extensions - Rename
+  src/python-boilerplate to src/python_boilerplate (valid Python module name) - Enhance ty config
+  with explicit src includes
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+
+### Refactoring
+
+- Modernize tooling with Astral stack (uv, ruff, ty, hatchling)
+  ([`248e16e`](https://github.com/peacockery-studio/python-boilerplate/commit/248e16e958d4cae3261662c574a8d0efaa2064c4))
+
+- Replace pyright with ty for type checking - Switch build backend from uv_build to hatchling -
+  Consolidate ruff.toml and pyrightconfig.json into pyproject.toml - Add GitHub Actions CI/CD
+  workflows (lint, typecheck, test, release) - Configure semantic-release for conventional commits -
+  PyPI and Codecov disabled by default (see TODO comments to enable)
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
